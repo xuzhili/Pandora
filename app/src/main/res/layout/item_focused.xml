@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.monster.pandora.sample.view.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="100dp"
+    android:layout_marginLeft="100dp"
+    android:layout_marginTop="20dp"
+    android:clipChildren="false"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/activity_main_to_basic_btn_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center" />
+
+</com.monster.pandora.sample.view.ShadowLayout>

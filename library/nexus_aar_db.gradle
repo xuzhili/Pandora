@@ -1,0 +1,63 @@
+// ********************************** upload archives ***********************************
+
+apply plugin: 'maven'
+
+group = "$dbarchiveGroup"
+version = getParameter('archiveVersion')
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://nexus.dangbei.net/nexus/content/repositories/releases/") {
+                authentication(userName: "$dbossrhUsername", password: "$dbossrhPassword")
+            }
+            snapshotRepository(url: "http://nexus.dangbei.net/nexus/content/repositories/snapshots/") {
+                authentication(userName: "$dbossrhUsername", password: "$dbossrhPassword")
+            }
+
+            pom.project {
+                artifactId "$dbarchiveName"
+                name "$dbarchiveName"
+                packaging 'aar'
+
+                description "$dbarchiveDesc"
+                url "$dbarchiveUrl"
+
+            }
+
+        }
+    }
+}
+
+def getParameter(String key) {
+    // -D
+    String value = System.getProperty(key)
+    if (null != value && value.length() > 0) {
+        return value
+    }
+    // -P
+    if (hasProperty(key)) {
+        return getProperty(key)
+    }
+    return null
+}

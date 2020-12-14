@@ -1,0 +1,47 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        jcenter()
+        maven { url 'http://nexus.dangbei.net/nexus/content/groups/public' }
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath ('com.dangbei:tomato:1.0.0'){
+            exclude group: 'com.android.tools.build', module: 'gradle'
+        }
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        jcenter()
+        google()
+    }
+    ext {
+        global_compileSdkVersion = 27
+        global_minSdkVersion = 16
+        global_targetSdkVersion = 27
+
+        global_supportVersion = '27.1.1'
+        global_buildToolsVersion = '27.0.0'
+        global_constraintLayoutVersion = "1.1.3"
+        global_junitVersion = '4.12'
+        global_espressoVersion = '2.2.2'
+    }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+        options.addStringOption('charSet', 'UTF-8')
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
